@@ -628,10 +628,11 @@ All standalone configuration files can be stored in the [`configs/`](configs/) f
 ### 👤 Author
 
 **Your Name**
-Network Engineering Student
+Revan Anugrah Wibowo Network Engineering student (TJKT) · SMKN 3 Kota Tangerang
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/)
-[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/revan-anugrah-wibowo/)
+[![GitHub](https://img.shields.io/badge/GitHub-RevanAnugrah-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/RevanAnugrah)
+
 
 ⭐ If this project helps you, give it a star!
 
