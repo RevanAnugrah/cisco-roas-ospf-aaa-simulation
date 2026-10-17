@@ -13,7 +13,8 @@
 
 <br>
 
-<img width="944" alt="Topology Preview" src="images/topologi.png" />
+<img width="951" height="353" alt="{27CD2095-2B85-40ED-9B96-E5D717794747}" src="https://github.com/user-attachments/assets/8fd5f45c-221e-4322-848d-4bfb43a12705" />
+
 
 <sub>Full topology built in Cisco Packet Tracer</sub>
 
@@ -51,7 +52,8 @@ The three routers are connected in a **redundant triangle WAN topology** using s
 
 ### Packet Tracer view
 
-<img width="944" alt="Packet Tracer Topology" src="images/topologi.png" />
+<img width="951" height="353" alt="{27CD2095-2B85-40ED-9B96-E5D717794747}" src="https://github.com/user-attachments/assets/9de88e6f-f324-4af5-aeaf-a519f82bebf8" />
+
 
 ### Logical view
 
