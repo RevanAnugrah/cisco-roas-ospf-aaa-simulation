@@ -1,0 +1,32 @@
+! ==========================================
+! Configuration for Switch0 - Gedung A (2960)
+! ==========================================
+enable
+configure terminal
+hostname Switch0
+no ip domain-lookup
+
+! --- Create VLAN 50 ---
+vlan 50
+ name Wireles
+ exit
+
+! --- Trunk Port to RouterGedungA ---
+interface FastEthernet0/1
+ description Trunk to RouterGedungA (Gig0/0)
+ switchport mode trunk
+ switchport trunk allowed vlan 50
+ no shutdown
+ exit
+
+! --- Access Port to AccessPoint0 ---
+interface FastEthernet0/2
+ description Connected to AccessPoint0
+ switchport mode access
+ switchport access vlan 50
+ spanning-tree portfast
+ no shutdown
+ exit
+
+end
+write memory

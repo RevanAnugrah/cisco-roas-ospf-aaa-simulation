@@ -1,0 +1,41 @@
+! ==========================================
+! Configuration for Switch2 - Gedung B (2960-24TT)
+! ==========================================
+enable
+configure terminal
+hostname Switch2
+no ip domain-lookup
+
+! --- Create VLAN 100 ---
+vlan 100
+ name Center
+ exit
+
+! --- Trunk Port to RouterGedungB ---
+interface FastEthernet0/1
+ description Trunk to RouterGedungB (Gig0/0)
+ switchport mode trunk
+ switchport trunk allowed vlan 100
+ no shutdown
+ exit
+
+! --- Access Port to ServerAAA ---
+interface FastEthernet0/2
+ description Connected to ServerAAA
+ switchport mode access
+ switchport access vlan 100
+ spanning-tree portfast
+ no shutdown
+ exit
+
+! --- Access Port to Printer0 ---
+interface FastEthernet0/3
+ description Connected to Printer0
+ switchport mode access
+ switchport access vlan 100
+ spanning-tree portfast
+ no shutdown
+ exit
+
+end
+write memory

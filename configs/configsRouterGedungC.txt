@@ -1,0 +1,54 @@
+! ==========================================
+! Configuration for RouterGedungC (Cisco 2901)
+! ==========================================
+enable
+configure terminal
+hostname RouterGedungC
+no ip domain-lookup
+
+! --- LAN Interface (Router-on-a-Stick: VLAN 70 Admin) ---
+interface GigabitEthernet0/0
+ description Trunk to Switch1 (Gedung C)
+ no ip address
+ no shutdown
+ exit
+
+interface GigabitEthernet0/0.70
+ description Gateway VLAN 70 - Admin
+ encapsulation dot1Q 70
+ ip address 192.44.55.1 255.255.255.0
+ exit
+
+! --- Serial WAN Interfaces ---
+interface Serial0/3/0
+ description WAN Link to RouterGedungA
+ ip address 100.32.45.2 255.255.255.252
+ no shutdown
+ exit
+
+interface Serial0/3/1
+ description WAN Link to RouterGedungB (DCE)
+ ip address 172.44.55.2 255.255.255.252
+ clock rate 64000
+ no shutdown
+ exit
+
+! --- DHCP Pool for VLAN 70 (Admin) ---
+ip dhcp excluded-address 192.44.55.1
+ip dhcp pool VLAN70_ADMIN
+ network 192.44.55.0 255.255.255.0
+ default-router 192.44.55.1
+ dns-server 100.100.100.2
+ exit
+
+! --- OSPF Dynamic Routing ---
+router ospf 1
+ router-id 3.3.3.3
+ passive-interface GigabitEthernet0/0.70
+ network 192.44.55.0 0.0.0.255 area 0
+ network 100.32.45.0 0.0.0.3 area 0
+ network 172.44.55.0 0.0.0.3 area 0
+ exit
+
+end
+write memory

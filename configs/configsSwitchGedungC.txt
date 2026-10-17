@@ -1,0 +1,32 @@
+! ==========================================
+! Configuration for Switch1 - Gedung C (2960-24TT)
+! ==========================================
+enable
+configure terminal
+hostname Switch1
+no ip domain-lookup
+
+! --- Create VLAN 70 ---
+vlan 70
+ name Admin
+ exit
+
+! --- Trunk Port to RouterGedungC ---
+interface FastEthernet0/1
+ description Trunk to RouterGedungC (Gig0/0)
+ switchport mode trunk
+ switchport trunk allowed vlan 70
+ no shutdown
+ exit
+
+! --- Access Ports to Admin PCs (PC4 & PC5) ---
+interface range FastEthernet0/2 - 3
+ description Connected to PC4 and PC5 (VLAN 70 Admin)
+ switchport mode access
+ switchport access vlan 70
+ spanning-tree portfast
+ no shutdown
+ exit
+
+end
+write memory

@@ -1,0 +1,55 @@
+! ==========================================
+! Configuration for RouterGedungB (Cisco 2911)
+! ==========================================
+enable
+configure terminal
+hostname RouterGedungB
+no ip domain-lookup
+
+! --- LAN Interface (Router-on-a-Stick: VLAN 100 Center) ---
+interface GigabitEthernet0/0
+ description Trunk to Switch2 (Gedung B)
+ no ip address
+ no shutdown
+ exit
+
+interface GigabitEthernet0/0.100
+ description Gateway VLAN 100 - Center (ServerAAA & Printer)
+ encapsulation dot1Q 100
+ ip address 100.100.100.1 255.255.255.0
+ exit
+
+! --- Serial WAN Interfaces ---
+interface Serial0/2/0
+ description WAN Link to RouterGedungA (DCE)
+ ip address 100.100.2.2 255.255.255.252
+ clock rate 64000
+ no shutdown
+ exit
+
+interface Serial0/2/1
+ description WAN Link to RouterGedungC
+ ip address 172.44.55.1 255.255.255.252
+ no shutdown
+ exit
+
+! --- DHCP Pool for VLAN 100 (Center) ---
+! Exclude Gateway (.1) and Static ServerAAA (.2)
+ip dhcp excluded-address 100.100.100.1 100.100.100.2
+ip dhcp pool VLAN100_CENTER
+ network 100.100.100.0 255.255.255.0
+ default-router 100.100.100.1
+ dns-server 100.100.100.2
+ exit
+
+! --- OSPF Dynamic Routing ---
+router ospf 1
+ router-id 2.2.2.2
+ passive-interface GigabitEthernet0/0.100
+ network 100.100.100.0 0.0.0.255 area 0
+ network 100.100.2.0 0.0.0.3 area 0
+ network 172.44.55.0 0.0.0.3 area 0
+ exit
+
+end
+write memory
