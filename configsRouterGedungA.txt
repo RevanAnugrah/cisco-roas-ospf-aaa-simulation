@@ -1,0 +1,69 @@
+! ==========================================
+! Configuration for RouterGedungA (Cisco 2911)
+! ==========================================
+enable
+configure terminal
+hostname RouterGedungA
+no ip domain-lookup
+
+! --- Local User & AAA Authentication ---
+username RouterAuser privilege 15 secret RouterA123
+aaa new-model
+aaa authentication login default group radius local
+radius-server host 100.100.100.2 auth-port 1645 key AAA123
+
+! --- Console & VTY Lines ---
+line console 0
+ login authentication default
+ exit
+line vty 0 4
+ login authentication default
+ transport input ssh telnet
+ exit
+
+! --- LAN Interface (Router-on-a-Stick: VLAN 50 Wireless) ---
+interface GigabitEthernet0/0
+ description Trunk to Switch0 (Gedung A)
+ no ip address
+ no shutdown
+ exit
+
+interface GigabitEthernet0/0.50
+ description Gateway VLAN 50 - Wireless
+ encapsulation dot1Q 50
+ ip address 192.88.99.1 255.255.255.0
+ exit
+
+! --- Serial WAN Interfaces ---
+interface Serial0/3/1
+ description WAN Link to RouterGedungB
+ ip address 100.100.2.1 255.255.255.252
+ no shutdown
+ exit
+
+interface Serial0/3/0
+ description WAN Link to RouterGedungC (DCE)
+ ip address 100.32.45.1 255.255.255.252
+ clock rate 64000
+ no shutdown
+ exit
+
+! --- DHCP Pool for VLAN 50 (Wireless) ---
+ip dhcp excluded-address 192.88.99.1
+ip dhcp pool VLAN50_WIRELESS
+ network 192.88.99.0 255.255.255.0
+ default-router 192.88.99.1
+ dns-server 100.100.100.2
+ exit
+
+! --- OSPF Dynamic Routing ---
+router ospf 1
+ router-id 1.1.1.1
+ passive-interface GigabitEthernet0/0.50
+ network 192.88.99.0 0.0.0.255 area 0
+ network 100.100.2.0 0.0.0.3 area 0
+ network 100.32.45.0 0.0.0.3 area 0
+ exit
+
+end
+write memory
